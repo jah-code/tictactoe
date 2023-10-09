@@ -1,0 +1,33 @@
+.App {
+  text-align: center;
+  background-color: #282c34;
+  color: white;
+}
+
+button {
+  background-color: #68ddff;
+  color: #fff;
+}
+
+#root {
+  .MuiButtonBase-root.base {
+    color: #68ddff;
+    border-color: #68ddff;
+
+    &:hover {
+      background-color: #68ddff;
+      color: #282c34;
+    }
+  }
+
+  .MuiButtonBase-root.black {
+    color: #282c34;
+    border-color: #68ddff;
+
+    &:hover {
+      background-color: #282c34;
+      border-color: #282c34;
+      color: #68ddff;
+    }
+  }
+}

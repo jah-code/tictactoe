@@ -4,13 +4,13 @@ import CloseIcon from "@mui/icons-material/Close";
 import RadioButtonUncheckedIcon from "@mui/icons-material/RadioButtonUnchecked";
 
 const Square = (props) => {
-  const { id, filledCount, playerHandler } = props;
+  const { id, filledCount, playerHandler, reset } = props;
   const [currentPlayer, setCurrentPlayer] = useState();
 
-  const handlePickCell = (id, filledCount) => {
-    if (filledCount % 2 === 0) {
+  const handlePickCell = (filledCount) => {
+    if (filledCount % 2 === 0 && !currentPlayer) {
       setCurrentPlayer(1);
-    } else {
+    } else if (filledCount % 2 === 1 && !currentPlayer) {
       setCurrentPlayer(2);
     }
   };
@@ -21,8 +21,14 @@ const Square = (props) => {
     }
   }, [currentPlayer]);
 
+  useEffect(() => {
+    if (reset) {
+      setCurrentPlayer(null);
+    }
+  }, [reset]);
+
   return (
-    <div className="cell" onClick={(e) => handlePickCell(id, filledCount)}>
+    <div className="cell" onClick={() => handlePickCell(filledCount)}>
       {currentPlayer === 1 ? (
         <CloseIcon fontSize="large" />
       ) : currentPlayer === 2 ? (

@@ -1,0 +1,22 @@
+.box {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 400px;
+    height: 180px;
+    background-color: #62dcff;
+    border: 2px solid #68ddff;
+    text-align: center;
+
+    .MuiButtonBase-root.black {
+        color: #282c34;
+        border: 1px solid #282c34;
+    
+        &:hover {
+          background-color: #282c34;
+          border-color: #282c34;
+          color: #68ddff;
+        }
+    }
+}
