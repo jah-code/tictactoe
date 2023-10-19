@@ -73,13 +73,12 @@ const Board = () => {
     }
   }, [combinationX, combinationO, player]);
 
-  const handleReset = async () => {
-    await setReset(true);
-    await setFilledCount(0);
-    await setCombinationO([]);
-    await setCombinationX([]);
-    await setWinner("");
-    await setReset(false);
+  const handleReset = () => {
+    setReset(true);
+    setFilledCount(0);
+    setCombinationO([]);
+    setCombinationX([]);
+    setWinner("");
   };
 
   const handleCloseResultModal = () => {
