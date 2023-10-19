@@ -16,6 +16,8 @@ const winnerCombinations = [
   [3, 5, 7],
 ];
 
+const items = [1, 2, 3, 4, 5, 6, 7, 8, 9];
+
 const Board = () => {
   const [filledCount, setFilledCount] = useState(0);
   const [combinationX, setCombinationX] = useState([]);
@@ -24,56 +26,52 @@ const Board = () => {
   const [isVisibleResultModal, setIsVisibleResultModal] = useState(false);
   const [isVisibleNoWinnerModal, setIsVisibleNoWinnerModal] = useState(false);
   const [winner, setWinner] = useState("");
+  const [player, setPlayer] = useState(null);
 
   const playerHandler = (id, currentPlayer) => {
     setFilledCount(filledCount + 1);
     if (currentPlayer === 1) {
       setCombinationX([...combinationX, id]);
+      setPlayer(currentPlayer);
     } else {
       setCombinationO([...combinationO, id]);
+      setPlayer(currentPlayer);
     }
 
     setReset(false);
   };
 
   useEffect(() => {
-    const timer = setTimeout(() => {
-      if (winner === "" && filledCount === 9) {
-        setIsVisibleNoWinnerModal(true);
-      }
-    }, 1000);
-    return () => clearTimeout(timer);
+    if (winner === "" && filledCount === 9) {
+      setIsVisibleNoWinnerModal(true);
+    }
   }, [filledCount, winner]);
 
   useEffect(() => {
-    if (combinationX && combinationX.length >= 3) {
+    if (
+      (combinationX && combinationX.length >= 3) ||
+      (combinationO && combinationO.length >= 3)
+    ) {
       winnerCombinations.map((winCombi) => {
         const winnerCombi = winCombi.every((value) => {
-          return combinationX.includes(value);
+          if (player === 1) {
+            return combinationX.includes(value);
+          } else {
+            return combinationO.includes(value);
+          }
         });
 
         if (winnerCombi) {
-          setWinner("X");
+          if (player === 1) {
+            setWinner("X");
+          } else {
+            setWinner("O");
+          }
           setIsVisibleResultModal(true);
         }
       });
     }
-  }, [combinationX]);
-
-  useEffect(() => {
-    if (combinationO && combinationO.length >= 3) {
-      winnerCombinations.map((winCombi) => {
-        const winnerCombi = winCombi.every((value) => {
-          return combinationO.includes(value);
-        });
-
-        if (winnerCombi) {
-          setWinner("O");
-          setIsVisibleResultModal(true);
-        }
-      });
-    }
-  }, [combinationO]);
+  }, [combinationX, combinationO, player]);
 
   const handleReset = async () => {
     await setReset(true);
@@ -105,60 +103,17 @@ const Board = () => {
   return (
     <div>
       <div className="board">
-        <Square
-          id={1}
-          filledCount={filledCount}
-          playerHandler={playerHandler}
-          reset={reset}
-        />
-        <Square
-          id={2}
-          filledCount={filledCount}
-          playerHandler={playerHandler}
-          reset={reset}
-        />
-        <Square
-          id={3}
-          filledCount={filledCount}
-          playerHandler={playerHandler}
-          reset={reset}
-        />
-        <Square
-          id={4}
-          filledCount={filledCount}
-          playerHandler={playerHandler}
-          reset={reset}
-        />
-        <Square
-          id={5}
-          filledCount={filledCount}
-          playerHandler={playerHandler}
-          reset={reset}
-        />
-        <Square
-          id={6}
-          filledCount={filledCount}
-          playerHandler={playerHandler}
-          reset={reset}
-        />
-        <Square
-          id={7}
-          filledCount={filledCount}
-          playerHandler={playerHandler}
-          reset={reset}
-        />
-        <Square
-          id={8}
-          filledCount={filledCount}
-          playerHandler={playerHandler}
-          reset={reset}
-        />
-        <Square
-          id={9}
-          filledCount={filledCount}
-          playerHandler={playerHandler}
-          reset={reset}
-        />
+        {items.map((item) => {
+          return (
+            <Square
+              key={item}
+              id={+item}
+              filledCount={filledCount}
+              playerHandler={playerHandler}
+              reset={reset}
+            />
+          );
+        })}
       </div>
 
       <br />
